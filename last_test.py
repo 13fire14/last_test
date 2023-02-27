@@ -47,6 +47,9 @@ beijing_now = utc_now.astimezone(SHA_TZ)
 time_login=beijing_now.strftime('%Y-%m-%d %H:%M:%S')
 st.write(time_login)
 #%%函数板块
+def show_51_book():
+    data51=pd.read_csv('./51书城所有书目.csv')    
+    st.dataframe(data51)
 def get_51_class(url,user_agent):
     header={'user-agent':random.choice(user_agent)}
     resp=requests.get(url,headers=header)
@@ -316,7 +319,7 @@ def user_data_load(column):
                 U.write('\n')
 def tool_box():
     #一键更新51书城所有书目
-    choose=st.sidebar.selectbox('功能选择', ['查看用户数据','更新51书目','更新笔趣书目','一键删除用户数据','一键插入标题行','查看已下载小说'])
+    choose=st.sidebar.selectbox('功能选择', ['查看用户数据','更新51书目','更新笔趣书目','一键删除用户数据','一键插入标题行','查看已下载小说','查看51书城书目'])
     if choose=='查看用户数据':
         show_data()
     elif choose=='一键删除用户数据':
@@ -329,6 +332,8 @@ def tool_box():
         get_51_all_book(user_agent)
     elif choose=='查看已下载小说':
         show_book(book_list)
+    elif choose=='查看51书城书目':
+      show_51_book()
 #%% 字典去重
 func=lambda data:dict([x,y] for y,x in data.items())
 #%%导入数据库
