@@ -82,11 +82,12 @@ def get_51_all_book(user_agent):
         title_class_book=title_class_book+title_list1
         href_class_book=href_class_book+href_list1
         time.sleep(5)
-        
+    st.write('51书城所有书目已整理完毕')  
     data51['书名']=title_class_book
     data51['网址']=href_class_book
     data51['类别']=title_class
-    data51.to_excel('./51书城所有书目.xlsx',index=False)
+    data51.to_csv('./51书城所有书目.csv',index=False)
+    #data51.to_excel('./51书城所有书目.xlsx',index=False)
 #%% 拿笔趣阁的小说来
 #获得笔趣所有分类
 def get_biqu_allclass(url,user_agent):
