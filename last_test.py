@@ -260,11 +260,13 @@ def get_biqu_all_book(user_agent):
     #获取分类下总页数
     
     for i in range(len(fenlei_url)):
-        
+        st.sidebar.write(i)
         all_page=get_biqu_fenlei_page(fenlei_url[i],user_agent)
         time.sleep(10)
         
         for j in (range(all_page)):
+            if j%10==0:
+                st.write(j)
             if i<=5:
                 url=(fenlei_url[i].split('_')[0]+"_"+f"{j+1}"+'/')
             elif i==6:
