@@ -288,7 +288,7 @@ def get_biqu_all_book(user_agent):
     for j in (range(all_page)):
         if j%20==0:
             st.write(f'{j}/{all_page}')
-        time.sleep(3)
+        time.sleep(0.5)
         url_next=(url+f'{j+1}'+'.html')
         book_list,name_list,author_list,leibie_list,count_list,time_list=get_biqu_onepage_book(url_next,user_agent)
         daoru(book_list,book)
