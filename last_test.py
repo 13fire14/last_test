@@ -282,6 +282,7 @@ def get_biqu_all_book(user_agent):
             daoru(author_list,author)
             
             daoru([leibie1[i]]*len(book_list),leibie)
+        st.write(f'第{i}类ok')
     #%% 保存爬取到的数据
     data222=pd.DataFrame()
     n1=len(book)
