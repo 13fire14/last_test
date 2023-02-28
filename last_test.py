@@ -375,8 +375,10 @@ def tool_box():
         book_list=[]
         for b in file_local:
             if '.csv' in b:
-                book_list.append(b)
+                if '51书城' not in b:
+                    book_list.append(b)
         st.write(book_list)
+        
 #%% 字典去重
 func=lambda data:dict([x,y] for y,x in data.items())
 #%%导入数据库
