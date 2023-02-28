@@ -120,7 +120,9 @@ def get_biqu_fenlei_page(url,user_agent):
 #%%获取该分类单页所有小说
 def get_biqu_onepage_book(url,user_agent):
     header={'user-agent':random.choice(user_agent)}
-    resp=requests.get(url,headers=header)
+    proxy='114.231.45.99:41932'
+    proxies={'http':'http://'+proxy}
+    resp=requests.get(url,headers=header,proxies=proxies)
     resp.encoding='gbk'
     e=etree.HTML(resp.text)
     # book_list=e.xpath('/html/body/div[3]/div[1]/div[2]/div/div[2]/ul/li/div[1]/a/@href')
