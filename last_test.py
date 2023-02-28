@@ -378,7 +378,7 @@ def tool_box():
                 if '51书城' not in b:
                     book_list.append(b)
                     txt=os.path.join(file,f'{b}')
-                    os.remove(txt)
+                    #os.remove(txt)
         st.write(book_list)
         
 #%% 字典去重
