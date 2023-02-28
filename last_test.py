@@ -361,7 +361,7 @@ def tool_box():
     elif choose=='查看51书城书目':
         show_51_book()
     elif choose=="查看笔趣书目":
-        n2=int(st.text_input())
+        n2=st.text_input()
         if n2==None:
             st.stop()
         st.success(show_biqu_book(n2))
