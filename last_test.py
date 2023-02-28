@@ -50,7 +50,9 @@ st.write(time_login)
 def show_51_book():
     data51=pd.read_csv('./51书城所有书目.csv')    
     st.dataframe(data51)
-    
+def show_biqu_book(name):
+    databiqu=pd.read_csv(f'./笔趣阁所有书目{name}.csv')
+    st.dataframe(databiqu)
 def get_51_class(url,user_agent):
     header={'user-agent':random.choice(user_agent)}
     resp=requests.get(url,headers=header)
@@ -253,7 +255,7 @@ def get_book_again(user_agent,proxies,url,name,author):
     return time_need,count
 #%%爬取笔趣阁所有小说信息
 @st.cache_data
-def get_biqu_all_book(user_agent):
+def get_biqu_all_book(user_agent,n1,n2):
     
     # url='https://www.bbiquge.net/'
     url='https://www.bbiquge.net/top/size/'
@@ -285,7 +287,8 @@ def get_biqu_all_book(user_agent):
     #             url=(fenlei_url[i]+f'{j+1}'+'.html')
     #             break
     all_page=get_biqu_fenlei_page(url,user_agent)
-    for j in (range(all_page)):
+    st.srite(f'总的有{all_page}页')
+    for j in (range(n1,n2)):
         if j%20==0:
             st.write(f'{j}/{all_page}')
         time.sleep(0.5)
@@ -307,7 +310,7 @@ def get_biqu_all_book(user_agent):
     data222['作者']=author
     data222['字数']=count_word
     data222['更新时间']=last_time
-    data222.to_csv('./笔趣阁所有书目all.csv',index=False)
+    data222.to_csv(f'./笔趣阁所有书目{n2}.csv',index=False)
 #%%查看数据
 def show_data():
     data=pd.read_table('./用户数据.txt',header=None,sep=',')
@@ -338,21 +341,27 @@ def user_data_load(column):
                 U.write('\n')
 def tool_box():
     #一键更新51书城所有书目
-    choose=st.sidebar.selectbox('功能选择', ['查看用户数据','更新51书目','更新笔趣书目','一键删除用户数据','一键插入标题行','查看已下载小说','查看51书城书目'])
+    choose=st.sidebar.selectbox('功能选择', ['查看用户数据','更新51书目','更新笔趣书目前300页','笔趣300-600','笔趣600-900','笔趣900-1200','笔趣1200-1500','一键删除用户数据','一键插入标题行','查看已下载小说','查看51书城书目','查看笔趣书目'])
     if choose=='查看用户数据':
         show_data()
     elif choose=='一键删除用户数据':
         delete_data(file,book_list)
     elif choose=='一键插入标题行'  :
         user_data_load(column)
-    elif choose=='更新笔趣书目':
-        get_biqu_all_book(user_agent)
+    elif choose=='更新笔趣书目前300页':
+        n1=int(st.text_input('请输入从第几页开始:'))
+        n2=int(st.text_input('请输入从第几页结束:'))
+        if n1=="" and n2=="":
+            st.stop()
+        st.success(get_biqu_all_book(user_agent,n1,n2))
     elif choose=='更新51书目':
         get_51_all_book(user_agent)
     elif choose=='查看已下载小说':
         show_book(book_list)
     elif choose=='查看51书城书目':
         show_51_book()
+    elif choose=="查看笔趣书目":
+        show_biqu_book(300)
 #%% 字典去重
 func=lambda data:dict([x,y] for y,x in data.items())
 #%%导入数据库
