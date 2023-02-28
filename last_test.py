@@ -302,7 +302,7 @@ def get_biqu_all_book(user_agent,n1,n2):
         daoru(leibie_list,leibie)
         daoru(count_list,count_word)
         daoru(time_list,last_time)
-            
+    st.sidebar.write(book)
     st.sidebar.write(leibie)
     #%% 保存爬取到的数据
     data222=pd.DataFrame()
