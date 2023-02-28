@@ -121,7 +121,7 @@ def get_biqu_fenlei_page(url,user_agent):
 def get_biqu_onepage_book(url,user_agent):
     #url='https://www.bbiquge.net/top/size/785.html'
     header={'user-agent':random.choice(user_agent)}
-    proxy='114.231.45.99:41932'
+    proxy='27.156.195.162:46134'
     proxies={'http':'http://'+proxy}
     resp=requests.get(url,headers=header,proxies=proxies)
     resp.encoding='gbk'
