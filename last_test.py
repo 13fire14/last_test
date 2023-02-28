@@ -362,7 +362,9 @@ def tool_box():
         show_51_book()
     elif choose=="查看笔趣书目":
         n2=int(st.text_input())
-        show_biqu_book(n2)
+        if n2==None:
+            st.stop()
+        st.success(show_biqu_book(n2))
 #%% 字典去重
 func=lambda data:dict([x,y] for y,x in data.items())
 #%%导入数据库
