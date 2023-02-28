@@ -287,7 +287,7 @@ def get_biqu_all_book(user_agent,n1,n2):
     #             url=(fenlei_url[i]+f'{j+1}'+'.html')
     #             break
     all_page=get_biqu_fenlei_page(url,user_agent)
-    st.srite(f'总的有{all_page}页')
+    st.write(f'总的有{all_page}页')
     for j in (range(n1,n2)):
         if j%20==0:
             st.write(f'{j}/{all_page}')
