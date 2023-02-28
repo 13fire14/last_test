@@ -296,6 +296,8 @@ def get_biqu_all_book(user_agent,n1,n2):
         time.sleep(0.5)
         url_next=(url+f'{j+1}'+'.html')
         book_list,name_list,author_list,leibie_list,count_list,time_list=get_biqu_onepage_book(url_next,user_agent)
+        st.table(name_list)
+        st.table(leibie_list)
         daoru(book_list,book)
         daoru(name_list,name)
         daoru(author_list,author)
