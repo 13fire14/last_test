@@ -150,7 +150,7 @@ def daoru(list1,list2):
         list2.append(b)
 #%% 获取单页的源代码
 def get_book_danye(user_agent,url):
-    proxy='117.93.108.82:49215'
+    proxy='61.145.27.55:32118'
 
     proxies={'http':'http://'+proxy}
     header={'user-agent':random.choice(user_agent)}
