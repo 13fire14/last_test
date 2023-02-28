@@ -340,9 +340,10 @@ def get_all_book():
     biqu_data=pd.DataFrame()
     for j in file_local:
         if '.csv' in j:
-            txt=os.path.join(file,f'{j}')
-            data1=pd.read_csv(txt)
-            biqu_data=pd.concat([biqu_data,data1])
+            if '51书城' not in j:
+                txt=os.path.join(file,f'{j}')
+                data1=pd.read_csv(txt)
+                biqu_data=pd.concat([biqu_data,data1])
     st.write(biqu_data.shape)
     return biqu_data
 #%%加载数据
