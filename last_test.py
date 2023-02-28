@@ -351,7 +351,7 @@ def tool_box():
     elif choose=='更新笔趣书目前300页':
         n1=(st.text_input('请输入从第几页开始:'))
         n2=(st.text_input('请输入从第几页结束:'))
-        if n1=="" and n2=="":
+        if n1==None and n2==None:
             st.stop()
         st.success(get_biqu_all_book(user_agent,n1,n2))
     elif choose=='更新51书目':
