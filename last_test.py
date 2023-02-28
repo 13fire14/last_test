@@ -121,7 +121,7 @@ def get_biqu_fenlei_page(url,user_agent):
 def get_biqu_onepage_book(url,user_agent):
     #url='https://www.bbiquge.net/top/size/785.html'
     header={'user-agent':random.choice(user_agent)}
-    proxy='27.156.195.162:46134'
+    proxy='114.231.45.99:41932'
     proxies={'http':'http://'+proxy}
     resp=requests.get(url,headers=header,proxies=proxies)
     resp.encoding='gbk'
@@ -332,6 +332,19 @@ def delete_data(file,book_list):
         if '用户数据' in i:
             txt=os.path.join(file,f'{i}')
             os.remove(txt)
+#%%导入数据库
+#@st.cache_data
+def get_all_book():
+    file=os.getcwd()
+    file_local=os.listdir(file)
+    biqu_data=pd.DataFrame()
+    for j in file_local:
+        if '.csv' in j:
+            txt=os.path.join(file,f'{j}')
+            data1=pd.read_csv(txt)
+            biqu_data=pd.concat([biqu_data,data1])
+    st.write(biqu_data.shape)
+    return biqu_data
 #%%加载数据
 def user_data_load(column):
     for c in range(len(column)):
@@ -358,36 +371,29 @@ def tool_box():
         if n1==None and n2==None:
             st.stop()
         st.success(get_biqu_all_book(user_agent,n1,n2))
-    elif choose=='更新51书目':
-        get_51_all_book(user_agent)
+    # elif choose=='更新51书目':
+    #     get_51_all_book(user_agent)
     elif choose=='查看已下载小说':
         show_book(book_list)
     elif choose=='查看51书城书目':
         show_51_book()
     elif choose=="查看笔趣书目":
-        n2=st.text_input('请输入')
-        if n2==None:
-            st.stop()
-        st.success(show_biqu_book(n2))
+        get_all_book()
     elif choose=='删除笔趣书目':
         file=os.getcwd()
         file_local=os.listdir(file)
-        book_list=[]
+        book_list=['请选择']
         for b in file_local:
             if '.csv' in b:
                 if '51书城' not in b:
                     book_list.append(b)
-                    txt=os.path.join(file,f'{b}')
-                    #os.remove(txt)
-        st.write(book_list)
-        
+        b=st.selectbox('请选择删除的数据集', book_list)
+        if b!='请选择':
+            txt=os.path.join(file,f'{b}')
+            os.remove(txt)
 #%% 字典去重
 func=lambda data:dict([x,y] for y,x in data.items())
-#%%导入数据库
-#@st.cache_data
-def get_all_book():
-    data=pd.read_csv('./笔趣阁所有书目1.csv')
-    return data
+
 #%%导入笔趣阁
 #%%检索内存是否有该小说
 file=os.getcwd()
@@ -397,7 +403,7 @@ for b in file_local:
     if '.txt' in b:
         book_list.append(b)
 #%%
-# data=get_all_book()
+data=get_all_book()
 # name_list=list(data['书名'])
 # url_list=list(data['网址'])
 # author_list=list(data['作者'])
