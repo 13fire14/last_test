@@ -483,7 +483,7 @@ with col2:
             da11=func(cand)
             need1=st.radio('请选择下载该作家作品',da11)
 
-            st.sidebar.write(name_list[da11[need1]],da11[need1],url_list[da11[need1]])
+            st.sidebar.write(name_list[da11[need1]],da11[need1],url_list[da11[need1]],count_list[da11[need1]])
             
     
             if st.sidebar.button('爬取----->'):
