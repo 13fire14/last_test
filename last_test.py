@@ -440,8 +440,9 @@ with col1:
     name=st.text_input('您想查看什么小说(不要空值搜索)：','请输入')
     candiate_name={0:'请选择'}
     candiate=[]
-
-    if name!=None:
+    if name=='请输入':
+        st.sidebar.subheader('青青子衿，悠悠我心')
+    elif name!=None:
         for i in range(len(name_list)):
             if name in name_list[i]:
                 candiate_name[i]=f'《{name_list[i]}》------{author_list[i]}'
@@ -472,8 +473,6 @@ with col1:
                 user_data_load(data)
                 f=open(f'{name_list[da[need]]}--{author_list[da[need]]}.txt','r',encoding='utf-8')
                 st.download_button('保存到本地',f)
-    elif name=='请输入':
-        st.sidebar.subheader('青青子衿，悠悠我心')
 with col2:
     author=st.text_input('您想看哪个作家的小说(不要空值搜索)','请输入')
     cand={0:'请选择'}
