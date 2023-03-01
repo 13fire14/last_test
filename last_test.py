@@ -480,7 +480,7 @@ with col2:
             # choose='天王'
             choose=st.radio('该作家书目如下', da1)
             st.sidebar.write(choose)
-            index1=int(da1[da1['书名']==choose].index.tolist())
+            index1=int(da1[da1['书名']==choose].index.tolist()[0])
             st.sidebar.write(name_list[index1],index1)
             st.sidebar.write(url_list[index1])
             if st.sidebar.button('爬取----->'):
