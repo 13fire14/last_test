@@ -424,8 +424,8 @@ for b in file_local:
     if '.txt' in b:
         book_list.append(b)
 #%%
-#data=get_all_book()
-data=pd.read_csv('C:/Users/bianca/Downloads/book.csv')
+data=get_all_book()
+#data=pd.read_csv('C:/Users/bianca/Downloads/book.csv')
 name_list=list(data['书名'])
 url_list=list(data['网址'])
 author_list=list(data['作者'])
