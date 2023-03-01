@@ -483,23 +483,15 @@ with col2:
             da11=func(cand)
             need1=st.radio('请选择下载该作家作品',da11)
 
-            st.sidebar.write(name_list[da11[need1]],da11[need1])
-            # #da1=da1.drop_duplicates('书名')
-            # # st.write(da1)
-            # # choose='天王'
-            # choose=st.radio('该作家书目如下', da1)
-            # # choose='狂神'
-            # st.sidebar.write(choose)
-            # index1=int(da1[da1['书名']==choose].index.tolist()[0])
-        
-            # st.sidebar.write(name_list[index1],index1)
-            # st.sidebar.write(url_list[index1])
-            # if st.sidebar.button('爬取----->'):
-            #     time_need,count,leibie=get_book(user_agent,url_list[index1],name_list[index1],author)
-            #     data=[f'{time_login}',f'{name_list[i]}',f'{author_list[i]}',f'{leibie}',f'{count}',f'{time_need}',f'{count_list}',f'{last_time}']
-            #     user_data_load(data)
-            #     f=open(f'{name_list[da[need]]}--{author_list[da[need]]}.txt','r',encoding='utf-8')
-            #     st.download_button('保存到本地',f)
+            st.sidebar.write(name_list[da11[need1]],da11[need1],url_list[da11[need1]])
+            
+    
+            if st.sidebar.button('爬取----->'):
+                time_need,count,leibie=get_book(user_agent,url_list[da11[need1]],name_list[da11[need1]],author)
+                data=[f'{time_login}',f'{name_list[da11[need1]]}',f'{author_list[da11[need1]]}',f'{leibie}',f'{count}',f'{time_need}',f'{count_list[da11[need1]]}',f'{last_time[da11[need1]]}']
+                user_data_load(data)
+                f=open(f'{name_list[da11[need1]]}--{author_list[da11[need1]]}.txt','r',encoding='utf-8')
+                st.download_button('保存到本地',f)
         except:
             st.write('抱歉丫————当前书城没有收录该作家任何书籍')
 
