@@ -328,7 +328,7 @@ def get_biqu_all_book(user_agent,n1,n2):
 def show_data():
     # f=open('./用户数据.txt','r',encoding='utf-8')
     # st.dataframe(f)
-    f=pd.read_table('./用户数据.txt')
+    f=pd.read_table('./用户数据.txt',sep=',')
     st.dataframe(f)
 def show_book(book_list):
     book_list1=[]
@@ -501,7 +501,7 @@ with col2:
 
         
 
-column=['搜索时间','书名','作者','类别','共多少章节','耗费时长','字数']
+column=['搜索时间','书名','作者','类别','共多少章节','耗费时长','字数','最后更新时间']
 code='曾文正'
 code1=st.sidebar.text_input('输入密码，解锁管理功能')
 if code!=code1:
