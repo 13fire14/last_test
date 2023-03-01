@@ -474,7 +474,9 @@ with col2:
         try:
             index=data['作者']==author
             da1=pd.DataFrame(data.loc[index,'书名'])
+            st.write(da1)
             da1=da1.drop_duplicates('书名')
+            st.write(da1)
             # choose='天王'
             choose=st.radio('该作家书目如下', da1)
             index1=int(da1[da1['书名']==choose].index.tolist()[0])
