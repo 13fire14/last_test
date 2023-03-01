@@ -481,12 +481,11 @@ with col2:
             st.sidebar.write(name_list[index1],index1)
             st.sidebar.write(url_list[index1])
             if st.sidebar.button('爬取----->'):
-                st.write(index1)
-                # time_need,count,leibie=get_book(user_agent,url_list[index1],name_list[index1],author)
-                # data=[f'{time_login}',f'{name_list[i]}',f'{author_list[i]}',f'{leibie}',f'{count}',f'{time_need}',f'{count_list}',f'{last_time}']
-                # user_data_load(data)
-                # f=open(f'{name_list[da[need]]}--{author_list[da[need]]}.txt','r',encoding='utf-8')
-                # st.download_button('保存到本地',f)
+                time_need,count,leibie=get_book(user_agent,url_list[index1],name_list[index1],author)
+                data=[f'{time_login}',f'{name_list[i]}',f'{author_list[i]}',f'{leibie}',f'{count}',f'{time_need}',f'{count_list}',f'{last_time}']
+                user_data_load(data)
+                f=open(f'{name_list[da[need]]}--{author_list[da[need]]}.txt','r',encoding='utf-8')
+                st.download_button('保存到本地',f)
         except:
             st.write('抱歉丫————当前书城没有收录该作家任何书籍')
 
