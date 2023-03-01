@@ -160,7 +160,7 @@ def get_book_danye(user_agent,url):
     e=etree.HTML(resp.text)
     return e
 #%% 获取一本书的正文加标题
-def get_book(user_agent,proxies,url,name,author):
+def get_book(user_agent,url,name,author):
     count=0
     time_waste=time.time()
     url_title='https://www.bbiquge.net'
@@ -168,14 +168,14 @@ def get_book(user_agent,proxies,url,name,author):
     # st.write(url)
     # st.write(name)
     #获取小说的所有页数
-    e=get_book_danye(user_agent,proxies,url)
+    e=get_book_danye(user_agent,url)
     #获取残缺的网址
     all_page=e.xpath('/html/body/div[4]/div/select/option/@value')
     if all_page==[]:
         url_2=e.xpath('/html/body/div[4]/dl/dd/a/@href')
         for k in (range(len(url_2))):
             url_3=url+url_2[k]
-            e=get_book_danye(user_agent,proxies,url_3)
+            e=get_book_danye(user_agent,url_3)
             info='\n'.join(e.xpath('/html/body/div[3]/div[2]/div[1]/text()')[2:])
             title=e.xpath('/html/body/div[3]/h1/text()')[0]
             st.sidebar.write(f'{title}--------ok')
@@ -191,13 +191,13 @@ def get_book(user_agent,proxies,url,name,author):
             #每页单独进行
     
             #获取每页源代码
-            e=get_book_danye(user_agent,proxies,url_1)
+            e=get_book_danye(user_agent,url_1)
             #获取每页章节
             url_2=e.xpath('/html/body/div[4]/dl/dd/a/@href')
             #获取所有章节链接 和章节名
             for k in (range(len(url_2))):
                 url_3=url+url_2[k]
-                e=get_book_danye(user_agent,proxies,url_3)
+                e=get_book_danye(user_agent,url_3)
                 info='\n'.join(e.xpath('/html/body/div[3]/div[2]/div[1]/text()')[2:])
                 title=e.xpath('/html/body/div[3]/h1/text()')[0]
                 st.sidebar.write(f'{title}--------ok')
@@ -209,7 +209,7 @@ def get_book(user_agent,proxies,url,name,author):
     st.write('全部下载完毕')
     return time_need,count
 #%%重新爬
-def get_book_again(user_agent,proxies,url,name,author):
+def get_book_again(user_agent,url,name,author):
     count=0
     time_waste=time.time()
     url_title='https://www.bbiquge.net'
@@ -217,14 +217,14 @@ def get_book_again(user_agent,proxies,url,name,author):
     # st.write(url)
     # st.write(name)
     #获取小说的所有页数
-    e=get_book_danye(user_agent,proxies,url)
+    e=get_book_danye(user_agent,url)
     #获取残缺的网址
     all_page=e.xpath('/html/body/div[4]/div/select/option/@value')
     if all_page==[]:
         url_2=e.xpath('/html/body/div[4]/dl/dd/a/@href')
         for k in (range(len(url_2))):
             url_3=url+url_2[k]
-            e=get_book_danye(user_agent,proxies,url_3)
+            e=get_book_danye(user_agent,url_3)
             info='\n'.join(e.xpath('/html/body/div[3]/div[2]/div[1]/text()')[2:])
             title=e.xpath('/html/body/div[3]/h1/text()')[0]
             st.sidebar.write(f'{title}--------ok')
@@ -240,13 +240,13 @@ def get_book_again(user_agent,proxies,url,name,author):
             #每页单独进行
     
             #获取每页源代码
-            e=get_book_danye(user_agent,proxies,url_1)
+            e=get_book_danye(user_agent,url_1)
             #获取每页章节
             url_2=e.xpath('/html/body/div[4]/dl/dd/a/@href')
             #获取所有章节链接 和章节名
             for k in (range(len(url_2))):
                 url_3=url+url_2[k]
-                e=get_book_danye(user_agent,proxies,url_3)
+                e=get_book_danye(user_agent,url_3)
                 info='\n'.join(e.xpath('/html/body/div[3]/div[2]/div[1]/text()')[2:])
                 title=e.xpath('/html/body/div[3]/h1/text()')[0]
                 st.sidebar.write(f'{title}--------ok')
@@ -269,7 +269,6 @@ def get_biqu_all_book(user_agent,n1,n2):
     book=[]
     name=[]
     author=[]
-    leibie=[]
     last_time=[]
     count_word=[]
     
@@ -344,7 +343,7 @@ def get_all_book():
                 txt=os.path.join(file,f'{j}')
                 data1=pd.read_csv(txt)
                 biqu_data=pd.concat([biqu_data,data1])
-    st.write(biqu_data.head(10))
+    #st.write(biqu_data.head(n))
     return biqu_data
 #%% 删除笔趣书目
 def delete_biqu():
@@ -414,48 +413,50 @@ for b in file_local:
         book_list.append(b)
 #%%
 data=get_all_book()
-# name_list=list(data['书名'])
-# url_list=list(data['网址'])
-# author_list=list(data['作者'])
+name_list=list(data['书名'])
+url_list=list(data['网址'])
+author_list=list(data['作者'])
+count_list=list(data['字数'])
+last_time=list(data['更新时间'])
 # class_list=list(data['类别'])
 st.subheader('请搜小说名或者作家名')
-# col1,col2=st.columns(2)
-# with col1:
-#     name=st.text_input('您想查看什么小说(不要空值搜索)：','请输入')
-#     candiate_name={0:'请选择'}
-#     candiate=[]
+col1,col2=st.columns(2)
+with col1:
+    name=st.text_input('您想查看什么小说(不要空值搜索)：','请输入')
+    candiate_name={0:'请选择'}
+    candiate=[]
 
-#     if name!=None:
-#         for i in range(len(name_list)):
-#             if name in name_list[i]:
-#                 candiate_name[i]=f'《{name_list[i]}》------{author_list[i]}'
-#         da=func((candiate_name))
-#         need=st.radio('请选择',da)
+    if name!=None:
+        for i in range(len(name_list)):
+            if name in name_list[i]:
+                candiate_name[i]=f'《{name_list[i]}》------{author_list[i]}'
+        da=func((candiate_name))
+        need=st.radio('请选择',da)
 
-#         st.sidebar.write(name_list[da[need]])
-#         if f'{name_list[da[need]]}--{author_list[da[need]]}.txt' in book_list:
-#             st.write('已有该小说啦')
-#             f=open(f'{name_list[da[need]]}--{author_list[da[need]]}.txt','r',encoding='utf-8')
-#             st.download_button('保存到本地',f)
+        st.sidebar.write(name_list[da[need]])
+        if f'{name_list[da[need]]}--{author_list[da[need]]}.txt' in book_list:
+            st.write('已有该小说啦')
+            f=open(f'{name_list[da[need]]}--{author_list[da[need]]}.txt','r',encoding='utf-8')
+            st.download_button('保存到本地',f)
         
-#             if st.button('也可重新爬取---->'):
-#                 with open(f'{name_list[da[need]]}--{author_list[da[need]]}-副本.txt','w') as f:
-#                     f.close()
-#                 i=int(da[need])
-#                 time_need,count=get_book_again(user_agent,proxies,url_list[i],name_list[i],author_list[i])
-#                 data=[f'{time_login}',f'{name_list[i]}',f'{author_list[i]}',f'{class_list[i]}',f'{count}',f'{time_need}']
-#                 user_data_load(data)
-#                 f=open(f'{name_list[da[need]]}--{author_list[da[need]]}-副本.txt','r',encoding='utf-8')
-#                 st.download_button('保存到本地',f)
-#         else:
-#             i=int(da[need])
-#             st.sidebar.write(url_list[i])
-#             if st.sidebar.button('爬取---->'):
-#                 time_need,count=get_book(user_agent,proxies,url_list[i],name_list[i],author_list[i])
-#                 data=[f'{time_login}',f'{name_list[i]}',f'{author_list[i]}',f'{class_list[i]}',f'{count}',f'{time_need}']
-#                 user_data_load(data)
-#                 f=open(f'{name_list[da[need]]}--{author_list[da[need]]}.txt','r',encoding='utf-8')
-#                 st.download_button('保存到本地',f)
+            if st.button('也可重新爬取---->'):
+                with open(f'{name_list[da[need]]}--{author_list[da[need]]}-副本.txt','w') as f:
+                    f.close()
+                i=int(da[need])
+                time_need,count=get_book_again(user_agent,url_list[i],name_list[i],author_list[i])
+                data=[f'{time_login}',f'{name_list[i]}',f'{author_list[i]}',f'{class_list[i]}',f'{count}',f'{time_need}']
+                user_data_load(data)
+                f=open(f'{name_list[da[need]]}--{author_list[da[need]]}-副本.txt','r',encoding='utf-8')
+                st.download_button('保存到本地',f)
+        else:
+            i=int(da[need])
+            st.sidebar.write(url_list[i])
+            if st.sidebar.button('爬取---->'):
+                time_need,count=get_book(user_agent,url_list[i],name_list[i],author_list[i])
+                data=[f'{time_login}',f'{name_list[i]}',f'{author_list[i]}',f'{class_list[i]}',f'{count}',f'{time_need}']
+                user_data_load(data)
+                f=open(f'{name_list[da[need]]}--{author_list[da[need]]}.txt','r',encoding='utf-8')
+                st.download_button('保存到本地',f)
 # with col2:
 #     author=st.text_input('您想看哪个作家的小说(不要空值搜索)','请输入')
 #     if author!="请输入":
@@ -478,7 +479,7 @@ st.subheader('请搜小说名或者作家名')
 
         
 
-column=['搜索时间','书名','作者','类别','共多少章节','耗费时长']
+column=['搜索时间','书名','作者','类别','共多少章节','耗费时长','字数']
 code='曾文正'
 code1=st.sidebar.text_input('输入密码，解锁管理功能')
 if code!=code1:
