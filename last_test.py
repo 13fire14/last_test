@@ -472,6 +472,8 @@ with col1:
                 user_data_load(data)
                 f=open(f'{name_list[da[need]]}--{author_list[da[need]]}.txt','r',encoding='utf-8')
                 st.download_button('保存到本地',f)
+    elif name=='请输入':
+        st.sidebar.subheader('青青子衿，悠悠我心')
 with col2:
     author=st.text_input('您想看哪个作家的小说(不要空值搜索)','请输入')
     cand={0:'请选择'}
