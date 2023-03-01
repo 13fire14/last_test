@@ -346,6 +346,19 @@ def get_all_book():
                 biqu_data=pd.concat([biqu_data,data1])
     st.write(biqu_data.shape)
     return biqu_data
+#%% 删除笔趣书目
+def delete_biqu():
+    file=os.getcwd()
+    file_local=os.listdir(file)
+    book_list=['请选择']
+    for b in file_local:
+        if '.csv' in b:
+            if '51书城' not in b:
+                book_list.append(b)
+    b=st.selectbox('请选择删除的数据集', book_list)
+    if b!='请选择':
+        txt=os.path.join(file,f'{b}')
+        os.remove(txt)
 #%%加载数据
 def user_data_load(column):
     for c in range(len(column)):
@@ -386,17 +399,7 @@ def tool_box():
         code11=st.text_input('请输入删除的密码：')
         if code11!='zwz':
             st.stop()
-        st.success(file=os.getcwd()
-                    file_local=os.listdir(file)
-                    book_list=['请选择']
-                    for b in file_local:
-                        if '.csv' in b:
-                            if '51书城' not in b:
-                                book_list.append(b)
-                    b=st.selectbox('请选择删除的数据集', book_list)
-                    if b!='请选择':
-                        txt=os.path.join(file,f'{b}')
-                        os.remove(txt)
+        st.success(delete_biqu()
                 )
 #%% 字典去重
 func=lambda data:dict([x,y] for y,x in data.items())
