@@ -425,6 +425,7 @@ for b in file_local:
         book_list.append(b)
 #%%
 data=get_all_book()
+st.write(type(data))
 st.table(data.head(10))
 #data=pd.read_csv('C:/Users/bianca/Downloads/book.csv')
 name_list=list(data['书名'])
