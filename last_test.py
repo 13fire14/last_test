@@ -483,7 +483,7 @@ with col2:
             da11=func(cand)
             need1=st.radio('请选择下载该作家作品',da11)
 
-            st.sidebar.write(da11[need1])
+            st.sidebar.write(name_list[da11[need1]],da11[need1])
             # #da1=da1.drop_duplicates('书名')
             # # st.write(da1)
             # # choose='天王'
