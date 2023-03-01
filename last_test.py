@@ -449,7 +449,7 @@ with col1:
         da=func((candiate_name))
         need=st.radio('请选择',da)
 
-        st.sidebar.write(name_list[da[need]])
+        
         if f'{name_list[da[need]]}--{author_list[da[need]]}.txt' in book_list:
             st.write('已有该小说啦')
             f=open(f'{name_list[da[need]]}--{author_list[da[need]]}.txt','r',encoding='utf-8')
@@ -466,7 +466,7 @@ with col1:
                 st.download_button('保存到本地',f)
         else:
             i=int(da[need])
-            st.sidebar.write(url_list[i])
+            st.sidebar.write(name_list[da[need]],url_list[i])
             if st.sidebar.button('爬取---->'):
                 time_need,count,leibie=get_book(user_agent,url_list[i],name_list[i],author_list[i])
                 data=[f'{time_login}',f'{name_list[i]}',f'{author_list[i]}',f'{leibie}',f'{count}',f'{time_need}',f'{count_list}',f'{last_time}']
