@@ -462,7 +462,7 @@ with col1:
                 st.download_button('保存到本地',f)
         else:
             i=int(da[need])
-            st.sidebar.write(url_list[i])
+            st.sidebar.write(url_list[i],i)
             if st.sidebar.button('爬取---->'):
                 time_need,count,leibie=get_book(user_agent,url_list[i],name_list[i],author_list[i])
                 data=[f'{time_login}',f'{name_list[i]}',f'{author_list[i]}',f'{leibie}',f'{count}',f'{time_need}',f'{count_list}',f'{last_time}']
