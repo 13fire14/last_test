@@ -426,7 +426,7 @@ for b in file_local:
 #%%
 data=get_all_book()
 st.write(type(data))
-st.table(data.head(10))
+#st.table(data.head(10))
 #data=pd.read_csv('C:/Users/bianca/Downloads/book.csv')
 name_list=list(data['书名'])
 url_list=list(data['网址'])
@@ -480,9 +480,9 @@ with col2:
         
         try:
           
-            for j in range(len(data['作者'])):
-                if f'{author}' in data['作者'][j]:
-                    cand.append(data['书名'][j])
+            for j in range(len(author_list)):
+                if f'{author}' in author_list[j]:
+                    cand.append(name_list[j])
             #da11=func((cand))
             choose11=st.radio('请查看',cand)
             st.sidebar.write(name_list[da11[choose11]],url_list[da11[choose11]])
