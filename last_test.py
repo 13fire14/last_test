@@ -328,7 +328,7 @@ def get_biqu_all_book(user_agent,n1,n2):
 def show_data():
     # f=open('./用户数据.txt','r',encoding='utf-8')
     # st.dataframe(f)
-    f=pd.read_csv('./用户数据.txt',sep=',',header=None,name=['搜索时间','书名','作者','类别','共多少章节','耗费时长','字数'])
+    f=pd.read_csv('./用户数据.txt',sep=',',header=None)
     st.dataframe(f)
 def show_book(book_list):
     book_list1=[]
