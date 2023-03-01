@@ -475,11 +475,11 @@ with col2:
             index=data['作者']==author
             da1=pd.DataFrame(data.loc[index,'书名'])
             st.write(da1)
-            da1=da1.drop_duplicates('书名')
-            st.write(da1)
+            # da1=da1.drop_duplicates('书名')
+            # st.write(da1)
             # choose='天王'
             choose=st.radio('该作家书目如下', da1)
-            index1=int(da1[da1['书名']==choose].index.tolist()[0])
+            index1=int(da1[da1['书名']==choose].index.tolist())
             st.sidebar.write(name_list[index1],index1)
             st.sidebar.write(url_list[index1])
             if st.sidebar.button('爬取----->'):
