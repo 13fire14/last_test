@@ -169,6 +169,11 @@ def get_book(user_agent,url,name,author):
     # st.write(name)
     #获取小说的所有页数
     e=get_book_danye(user_agent,url)
+    #获取类别
+    try:
+        leibie=e.xpath('/html/body/div[3]/div/div[1]/a[2]/text()')[0]
+    except:
+        leibie='None'
     #获取残缺的网址
     all_page=e.xpath('/html/body/div[4]/div/select/option/@value')
     if all_page==[]:
@@ -207,7 +212,7 @@ def get_book(user_agent,url,name,author):
                 count+=1
         time_need=time.time()-time_waste
     st.write('全部下载完毕')
-    return time_need,count
+    return time_need,count,leibie
 #%%重新爬
 def get_book_again(user_agent,url,name,author):
     count=0
@@ -218,6 +223,11 @@ def get_book_again(user_agent,url,name,author):
     # st.write(name)
     #获取小说的所有页数
     e=get_book_danye(user_agent,url)
+    #获取类别
+    try:
+        leibie=e.xpath('/html/body/div[3]/div/div[1]/a[2]/text()')[0]
+    except:
+        leibie='None'
     #获取残缺的网址
     all_page=e.xpath('/html/body/div[4]/div/select/option/@value')
     if all_page==[]:
@@ -256,7 +266,7 @@ def get_book_again(user_agent,url,name,author):
                 count+=1
         time_need=time.time()-time_waste
     st.write('全部下载完毕')
-    return time_need,count
+    return time_need,count,leibie
 #%%爬取笔趣阁所有小说信息
 @st.cache_data
 def get_biqu_all_book(user_agent,n1,n2):
@@ -443,8 +453,8 @@ with col1:
                 with open(f'{name_list[da[need]]}--{author_list[da[need]]}-副本.txt','w') as f:
                     f.close()
                 i=int(da[need])
-                time_need,count=get_book_again(user_agent,url_list[i],name_list[i],author_list[i])
-                data=[f'{time_login}',f'{name_list[i]}',f'{author_list[i]}',f'{class_list[i]}',f'{count}',f'{time_need}']
+                time_need,count,leibie=get_book_again(user_agent,url_list[i],name_list[i],author_list[i])
+                data=[f'{time_login}',f'{name_list[i]}',f'{author_list[i]}',f'{leibie}',f'{count}',f'{time_need}',f'{count_list}',f'{last_time}']
                 user_data_load(data)
                 f=open(f'{name_list[da[need]]}--{author_list[da[need]]}-副本.txt','r',encoding='utf-8')
                 st.download_button('保存到本地',f)
@@ -452,28 +462,33 @@ with col1:
             i=int(da[need])
             st.sidebar.write(url_list[i])
             if st.sidebar.button('爬取---->'):
-                time_need,count=get_book(user_agent,url_list[i],name_list[i],author_list[i])
-                data=[f'{time_login}',f'{name_list[i]}',f'{author_list[i]}',f'{class_list[i]}',f'{count}',f'{time_need}']
+                time_need,count,leibie=get_book(user_agent,url_list[i],name_list[i],author_list[i])
+                data=[f'{time_login}',f'{name_list[i]}',f'{author_list[i]}',f'{leibie}',f'{count}',f'{time_need}',f'{count_list}',f'{last_time}']
                 user_data_load(data)
                 f=open(f'{name_list[da[need]]}--{author_list[da[need]]}.txt','r',encoding='utf-8')
                 st.download_button('保存到本地',f)
-# with col2:
-#     author=st.text_input('您想看哪个作家的小说(不要空值搜索)','请输入')
-#     if author!="请输入":
+with col2:
+    author=st.text_input('您想看哪个作家的小说(不要空值搜索)','请输入')
+    if author!="请输入":
         
-#         try:
-#             index=data['作者']==author
-#             da1=pd.DataFrame(data.loc[index,'书名'])
-#             da1=da1.drop_duplicates('书名')
-#             # choose='天王'
-#             choose=st.radio('该作家书目如下', da1)
-#             index1=int(da1[da1['书名']==choose].index.tolist()[0])
-#             st.sidebar.write(name_list[index1],index1)
-#             st.sidebar.write(url_list[index1])
-#             if st.sidebar.button('爬取----->'):
-#                 get_book(user_agent,proxies,url_list[i],name_list[i])
-#         except:
-#             st.write('抱歉丫————当前书城没有收录该作家任何书籍')
+        try:
+            index=data['作者']==author
+            da1=pd.DataFrame(data.loc[index,'书名'])
+            da1=da1.drop_duplicates('书名')
+            # choose='天王'
+            choose=st.radio('该作家书目如下', da1)
+            index1=int(da1[da1['书名']==choose].index.tolist()[0])
+            st.sidebar.write(name_list[index1],index1)
+            st.sidebar.write(url_list[index1])
+            if st.sidebar.button('爬取----->'):
+                st.write(index1)
+                # time_need,count,leibie=get_book(user_agent,url_list[index1],name_list[index1],author)
+                # data=[f'{time_login}',f'{name_list[i]}',f'{author_list[i]}',f'{leibie}',f'{count}',f'{time_need}',f'{count_list}',f'{last_time}']
+                # user_data_load(data)
+                # f=open(f'{name_list[da[need]]}--{author_list[da[need]]}.txt','r',encoding='utf-8')
+                # st.download_button('保存到本地',f)
+        except:
+            st.write('抱歉丫————当前书城没有收录该作家任何书籍')
 
 #%%设置管理系统
 
