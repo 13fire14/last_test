@@ -404,7 +404,7 @@ def tool_box():
         show_51_book()
     elif choose=="查看笔趣书目":
         data=get_all_book()
-        st.download_button('保存目录', data)
+        st.download_button('保存目录',data,file_name='book.csv')
     elif choose=='删除笔趣书目':
         code11=st.text_input('请输入删除的密码：')
         if code11!='zwz':
