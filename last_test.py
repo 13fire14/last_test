@@ -333,7 +333,7 @@ def delete_data(file,book_list):
             txt=os.path.join(file,f'{i}')
             os.remove(txt)
 #%%导入数据库
-#@st.cache_data
+@st.cache_data
 def get_all_book():
     file=os.getcwd()
     file_local=os.listdir(file)
@@ -344,7 +344,7 @@ def get_all_book():
                 txt=os.path.join(file,f'{j}')
                 data1=pd.read_csv(txt)
                 biqu_data=pd.concat([biqu_data,data1])
-    st.write(biqu_data.shape)
+    st.write(biqu_data.head(10))
     return biqu_data
 #%% 删除笔趣书目
 def delete_biqu():
