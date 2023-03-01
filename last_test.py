@@ -424,7 +424,8 @@ for b in file_local:
     if '.txt' in b:
         book_list.append(b)
 #%%
-data=get_all_book()
+#data=get_all_book()
+data=pd.read_csv('C:/Users/bianca/Downloads/book.csv')
 name_list=list(data['书名'])
 url_list=list(data['网址'])
 author_list=list(data['作者'])
@@ -462,7 +463,7 @@ with col1:
                 st.download_button('保存到本地',f)
         else:
             i=int(da[need])
-            st.sidebar.write(url_list[i],i)
+            st.sidebar.write(url_list[i])
             if st.sidebar.button('爬取---->'):
                 time_need,count,leibie=get_book(user_agent,url_list[i],name_list[i],author_list[i])
                 data=[f'{time_login}',f'{name_list[i]}',f'{author_list[i]}',f'{leibie}',f'{count}',f'{time_need}',f'{count_list}',f'{last_time}']
@@ -471,22 +472,20 @@ with col1:
                 st.download_button('保存到本地',f)
 with col2:
     author=st.text_input('您想看哪个作家的小说(不要空值搜索)','请输入')
+    # author='说梦者'
+    cand={0:'请选择'}
     if author!="请输入":
         
         try:
-            index=data['作者']==author
-            da1=pd.DataFrame(data.loc[index,'书名'])
-            st.write(da1)
-            da1=da1.drop_duplicates('书名')
-            # st.write(da1)
-            # choose='天王'
-            choose=st.radio('该作家书目如下', da1)
-            st.sidebar.write(choose)
-            index1=int(da1[da1['书名']==choose].index.tolist()[0])
-            st.sidebar.write(name_list[index1],index1)
-            st.sidebar.write(url_list[index1])
+          
+            for j in range(len(data['作者'])):
+                if f'{author}' in data['作者'][j]:
+                    cand[j]=data['书名'][j]
+            da11=func((cand))
+            choose11=st.radio('请查看',da11)
+            st.sidebar.write(name_list[da11[choose11]],url_list[da11[choose11]])
             if st.sidebar.button('爬取----->'):
-                time_need,count,leibie=get_book(user_agent,url_list[index1],name_list[index1],author)
+                time_need,count,leibie=get_book(user_agent,url_list[da11[choose11]],name_list[da11[choose11]],author)
                 data=[f'{time_login}',f'{name_list[i]}',f'{author_list[i]}',f'{leibie}',f'{count}',f'{time_need}',f'{count_list}',f'{last_time}']
                 user_data_load(data)
                 f=open(f'{name_list[da[need]]}--{author_list[da[need]]}.txt','r',encoding='utf-8')
