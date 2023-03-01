@@ -150,7 +150,7 @@ def daoru(list1,list2):
         list2.append(b)
 #%% 获取单页的源代码
 def get_book_danye(user_agent,url):
-    proxy='61.145.27.55:32118'
+    proxy='117.93.108.82:49215'
 
     proxies={'http':'http://'+proxy}
     header={'user-agent':random.choice(user_agent)}
@@ -367,12 +367,14 @@ def tool_box():
     elif choose=='一键插入标题行'  :
         user_data_load(column)
     elif choose=='更新笔趣书目前300页':
-        n1=int(st.text_input('请输入从第几页开始:'))
-        n2=int(st.text_input('请输入从第几页结束:'))
-        if n1==None and n2==None:
-            st.stop()
-        st.success(get_biqu_all_book(user_agent,n1,n2))
-    # elif choose=='更新51书目':
+        st.write('该功能已暂时关闭')
+        # n1=int(st.text_input('请输入从第几页开始:'))
+        # n2=int(st.text_input('请输入从第几页结束:'))
+        # if n1==None and n2==None:
+        #     st.stop()
+        # st.success(get_biqu_all_book(user_agent,n1,n2))
+    elif choose=='更新51书目':
+        st.write('该功能已暂时关闭')
     #     get_51_all_book(user_agent)
     elif choose=='查看已下载小说':
         show_book(book_list)
@@ -381,17 +383,21 @@ def tool_box():
     elif choose=="查看笔趣书目":
         get_all_book()
     elif choose=='删除笔趣书目':
-        file=os.getcwd()
-        file_local=os.listdir(file)
-        book_list=['请选择']
-        for b in file_local:
-            if '.csv' in b:
-                if '51书城' not in b:
-                    book_list.append(b)
-        b=st.selectbox('请选择删除的数据集', book_list)
-        if b!='请选择':
-            txt=os.path.join(file,f'{b}')
-            os.remove(txt)
+        code11=st.text_input('请输入删除的密码：')
+        if code11!='zwz':
+            st.stop()
+        st.success(file=os.getcwd()
+                    file_local=os.listdir(file)
+                    book_list=['请选择']
+                    for b in file_local:
+                        if '.csv' in b:
+                            if '51书城' not in b:
+                                book_list.append(b)
+                    b=st.selectbox('请选择删除的数据集', book_list)
+                    if b!='请选择':
+                        txt=os.path.join(file,f'{b}')
+                        os.remove(txt)
+                )
 #%% 字典去重
 func=lambda data:dict([x,y] for y,x in data.items())
 
