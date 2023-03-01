@@ -475,16 +475,16 @@ with col1:
 with col2:
     author=st.text_input('您想看哪个作家的小说(不要空值搜索)','请输入')
     # author='说梦者'
-    cand={0:'请选择'}
+    cand=[]
     if author!="请输入":
         
         try:
           
             for j in range(len(data['作者'])):
                 if f'{author}' in data['作者'][j]:
-                    cand[j]=data['书名'][j]
-            da11=func((cand))
-            choose11=st.radio('请查看',da11)
+                    cand.append(data['书名'][j])
+            #da11=func((cand))
+            choose11=st.radio('请查看',cand)
             st.sidebar.write(name_list[da11[choose11]],url_list[da11[choose11]])
             if st.sidebar.button('爬取----->'):
                 time_need,count,leibie=get_book(user_agent,url_list[da11[choose11]],name_list[da11[choose11]],author)
