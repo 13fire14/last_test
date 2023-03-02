@@ -356,7 +356,7 @@ def get_all_book(name):
                 data1=pd.read_csv(txt)
                 #st.dataframe(data1)
                 biqu_data=pd.concat([biqu_data,data1])
-   # st.dataframe(biqu_data)
+    st.dataframe(biqu_data)
     #st.write(biqu_data.head(n))
     return biqu_data
 #%% 删除笔趣书目
