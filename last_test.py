@@ -391,7 +391,7 @@ def get_analyse(user_agent,data,n1,n2):
     result_analyse_list=[]
     last_time1_list=[]
     author_list=[]
-
+    st.write(data.head(10))
     for  i in range(len(list(data['网址'][n1:n2]))):
         
         if i%100==0:
