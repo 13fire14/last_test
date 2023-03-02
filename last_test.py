@@ -391,12 +391,12 @@ def get_analyse(user_agent,data,n1,n2):
     result_analyse_list=[]
     last_time1_list=[]
     author_list=[]
-    i=0
-    for  url in list(data['网址'][n1:n2]):
-        i+=1
+
+    for  i in range(len(list(data['网址'][n1:n2]))):
+        
         if i%100==0:
             st.write(i)
-        e=get_book_danye(user_agent,url)
+        e=get_book_danye(user_agent,list(data['网址'][n1:n2])[i])
         #获取书名
         title=e.xpath('/html/body/div[3]/div/div[3]/h1/text()')[0]
         #最后一章更新时间last_time
@@ -410,7 +410,7 @@ def get_analyse(user_agent,data,n1,n2):
         try:
             url_last=url_title+e.xpath('/html/body/div[4]/div/select/option/@value')[-1]
         except:
-            url_last=url+'1.html'
+            url_last=list(data['网址'][n1:n2])[i]+'1.html'
             
         #获取最后一页所有章节名,判断是否有大结局字样
         
@@ -497,7 +497,8 @@ def tool_box():
         st.success(delete_biqu('笔趣阁所有')
                 )
     elif choose=='查看笔趣分析数据集':
-#        data_look2=get_all_book('bq_analyse')
+        data_look2=get_all_book('bq_analyse')
+        st.table(data_look2.head(5))
         code12=st.text_input('请输入删除的密码：')
         if code12!='zwz':
             st.stop()
