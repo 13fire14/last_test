@@ -393,58 +393,61 @@ def get_analyse(user_agent,data,n1,n2):
     author_list=[]
     st.write(data.head(10))
     for  i in range(len(list(data['网址'][n1:n2]))):
-        
-        if i%10==0:
-            st.write(i)
-        e=get_book_danye(user_agent,list(data['网址'][n1:n2])[i])
-        #获取书名
-        title=e.xpath('/html/body/div[3]/div/div[3]/h1/text()')[0]
-        #最后一章更新时间last_time
-        last_time1=e.xpath('/html/body/div[3]/div/div[3]/div[1]/text()[2]')[0].split('（')[1].split('）')[0]
-        #分类label
         try:
-            label=e.xpath('/html/body/div[3]/div/div[1]/a[2]/text()')[0]
-        except:
-            label='未知分类'
-        #获取最后一页url_last
-        try:
-            url_last=url_title+e.xpath('/html/body/div[4]/div/select/option/@value')[-1]
-        except:
-            url_last=list(data['网址'][n1:n2])[i]+'1.html'
+            if i%10==0:
+                st.write(i)
+            e=get_book_danye(user_agent,list(data['网址'][n1:n2])[i])
+            #获取书名
+            title=e.xpath('/html/body/div[3]/div/div[3]/h1/text()')[0]
+            #最后一章更新时间last_time
+            last_time1=e.xpath('/html/body/div[3]/div/div[3]/div[1]/text()[2]')[0].split('（')[1].split('）')[0]
+            #分类label
+            try:
+                label=e.xpath('/html/body/div[3]/div/div[1]/a[2]/text()')[0]
+            except:
+                label='未知分类'
+            #获取最后一页url_last
+            try:
+                url_last=url_title+e.xpath('/html/body/div[4]/div/select/option/@value')[-1]
+            except:
+                url_last=list(data['网址'][n1:n2])[i]+'1.html'
+                
+            #获取最后一页所有章节名,判断是否有大结局字样
             
-        #获取最后一页所有章节名,判断是否有大结局字样
-        
-        e1=get_book_danye(user_agent,url_last)
-        all_title=e1.xpath('/html/body/div[4]/dl/dd/a/text()')
-        count=0
-        for i in all_title:
-            if '大结局'  in i:
-                print(i)
-                count+=1
-            elif '完本' in i:
-                count+=1
-        if count>=1:
-            result='完本'
-            result_analyse='完本'
-        else:
-            result='未完本'
-        
-        
-        author=e.xpath('/html/body/div[3]/div/div[3]/h1/small/a/text()')[0]
-        index=data['作者']==author
-        count_novel=index.sum()
-        if count==0 and count_novel>1:
-            result_analyse='未完本非该作者唯一作品'
-        elif count==0 and count_novel==1:
-            result_analyse='未完本是该作者唯一作品'
-        
-        title_list.append(title)
-        label_list.append(label)
-        result_list.append(result)
-        count_novel_list.append(count_novel)
-        result_analyse_list.append(result_analyse)
-        last_time1_list.append(last_time1)
-        author_list.append(author)
+            e1=get_book_danye(user_agent,url_last)
+            all_title=e1.xpath('/html/body/div[4]/dl/dd/a/text()')
+            count=0
+            for i in all_title:
+                if '大结局'  in i:
+                    print(i)
+                    count+=1
+                elif '完本' in i:
+                    count+=1
+            if count>=1:
+                result='完本'
+                result_analyse='完本'
+            else:
+                result='未完本'
+            
+            
+            author=e.xpath('/html/body/div[3]/div/div[3]/h1/small/a/text()')[0]
+            index=data['作者']==author
+            count_novel=index.sum()
+            if count==0 and count_novel>1:
+                result_analyse='未完本非该作者唯一作品'
+            elif count==0 and count_novel==1:
+                result_analyse='未完本是该作者唯一作品'
+            
+            title_list.append(title)
+            label_list.append(label)
+            result_list.append(result)
+            count_novel_list.append(count_novel)
+            result_analyse_list.append(result_analyse)
+            last_time1_list.append(last_time1)
+            author_list.append(author)
+        except:
+            pass
+            continue
         
         
     data1=pd.DataFrame()
