@@ -506,7 +506,7 @@ def tool_box():
         code12=st.text_input('请输入删除的密码：')
         if code12!='zwz':
             st.stop()
-        st.success(delete_biqu('bq_analyse'))
+        st.success(delete_biqu('笔趣_analyse'))
 #%% 字典去重
 func=lambda data:dict([x,y] for y,x in data.items())
 
