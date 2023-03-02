@@ -393,6 +393,7 @@ def get_analyse(user_agent,data,n1,n2):
     author_list=[]
     i=0
     for  url in list(data['网址'][n1:n2]):
+        i+=1
         if i%100==0:
             st.write(i)
         e=get_book_danye(user_agent,url)
@@ -444,7 +445,7 @@ def get_analyse(user_agent,data,n1,n2):
         result_analyse_list.append(result_analyse)
         last_time1_list.append(last_time1)
         author_list.append(author)
-        i+=1
+        
         
     data1=pd.DataFrame()
     data1['作品名']=title_list
