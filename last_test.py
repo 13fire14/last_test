@@ -391,7 +391,10 @@ def get_analyse(user_agent,data,n1,n2):
     result_analyse_list=[]
     last_time1_list=[]
     author_list=[]
+    i=0
     for  url in list(data['网址'][n1:n2]):
+        if i%100==0:
+            st.write(i)
         e=get_book_danye(user_agent,url)
         #获取书名
         title=e.xpath('/html/body/div[3]/div/div[3]/h1/text()')[0]
@@ -441,7 +444,7 @@ def get_analyse(user_agent,data,n1,n2):
         result_analyse_list.append(result_analyse)
         last_time1_list.append(last_time1)
         author_list.append(author)
-        
+        i+=1
         
     data1=pd.DataFrame()
     data1['作品名']=title_list
