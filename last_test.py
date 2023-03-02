@@ -498,8 +498,6 @@ def tool_box():
         if code12!='zwz':
             st.stop()
         st.success(delete_biqu('bq_analyse')
-#%% 字典去重
-func=lambda data:dict([x,y] for y,x in data.items())
 
 #%%导入笔趣阁
 #%%检索内存是否有该小说
@@ -509,6 +507,9 @@ book_list=[]
 for b in file_local:
     if '.txt' in b:
         book_list.append(b)
+#%% 字典去重
+func=lambda di_data:dict([x,y] for y,x in di_data.items())
+
 #%%
 data=get_all_book('笔趣阁所有')
 #data=pd.read_csv('C:/Users/bianca/Downloads/book.csv')
