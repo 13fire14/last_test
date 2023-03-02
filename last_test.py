@@ -356,7 +356,7 @@ def get_all_book(name):
                 data1=pd.read_csv(txt)
                 #st.dataframe(data1)
                 biqu_data=pd.concat([biqu_data,data1])
-    st.dataframe(biqu_data)
+    #st.dataframe(biqu_data)
     st.write(biqu_data.shape)
     #st.write(biqu_data.head(n))
     return biqu_data
@@ -505,7 +505,7 @@ def tool_box():
                 )
     elif choose=='查看笔趣分析数据集':
         data_look2=get_all_book('bq_analyse')
-        st.dataframe(data_look2['作家'])
+        #st.dataframe(data_look2['作家'])
         code12=st.text_input('请输入删除的密码：')
         if code12!='zwz':
             st.stop()
