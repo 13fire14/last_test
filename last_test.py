@@ -394,7 +394,7 @@ def get_analyse(user_agent,data,n1,n2):
     st.write(data.head(10))
     for  i in range(len(list(data['网址'][n1:n2]))):
         
-        if i%100==0:
+        if i%10==0:
             st.write(i)
         e=get_book_danye(user_agent,list(data['网址'][n1:n2])[i])
         #获取书名
