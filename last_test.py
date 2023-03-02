@@ -354,9 +354,9 @@ def get_all_book(name):
             if f'{name}' in j:
                 txt=os.path.join(file,f'{j}')
                 data1=pd.read_csv(txt)
-                st.dataframe(data1)
+                #st.dataframe(data1)
                 biqu_data=pd.concat([biqu_data,data1])
-    st.dataframe(biqu_data)
+   # st.dataframe(biqu_data)
     #st.write(biqu_data.head(n))
     return biqu_data
 #%% 删除笔趣书目
@@ -504,7 +504,8 @@ def tool_box():
                 )
     elif choose=='查看笔趣分析数据集':
         data_look2=get_all_book('笔趣_analyse')
-        st.write(data_look2)
+        data_look21=pd.Dataframe(data_look2)
+        st.dataframe(data_look21)
         code12=st.text_input('请输入删除的密码：')
         if code12!='zwz':
             st.stop()
