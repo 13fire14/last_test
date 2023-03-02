@@ -504,7 +504,7 @@ def tool_box():
                 )
     elif choose=='查看笔趣分析数据集':
         data_look2=get_all_book('笔趣_analyse')
-        st.dataframe(data_look21['作家'])
+        st.dataframe(data_look2['作家'])
         code12=st.text_input('请输入删除的密码：')
         if code12!='zwz':
             st.stop()
