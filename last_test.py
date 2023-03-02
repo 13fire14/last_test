@@ -501,8 +501,7 @@ def tool_box():
                 )
     elif choose=='查看笔趣分析数据集':
         data_look2=get_all_book('bq_analyse')
-        data22=data_look2.to_csv()
-        st.write(data22.head(10))
+        st.dataframe(data22)
         code12=st.text_input('请输入删除的密码：')
         if code12!='zwz':
             st.stop()
