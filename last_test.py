@@ -345,26 +345,26 @@ def delete_data(file,book_list):
             os.remove(txt)
 #%%导入数据库
 @st.cache_data
-def get_all_book():
+def get_all_book(name):
     file=os.getcwd()
     file_local=os.listdir(file)
     biqu_data=pd.DataFrame()
     for j in file_local:
         if '.csv' in j:
-            if '51书城' not in j:
+            if f'{name}' in j:
                 txt=os.path.join(file,f'{j}')
                 data1=pd.read_csv(txt)
                 biqu_data=pd.concat([biqu_data,data1])
     #st.write(biqu_data.head(n))
     return biqu_data
 #%% 删除笔趣书目
-def delete_biqu():
+def delete_biqu(name):
     file=os.getcwd()
     file_local=os.listdir(file)
     book_list=['请选择']
     for b in file_local:
         if '.csv' in b:
-            if '51书城' not in b:
+            if f'{name}'  in b:
                 book_list.append(b)
     b=st.selectbox('请选择删除的数据集', book_list)
     if b!='请选择':
@@ -381,16 +381,94 @@ def user_data_load(column):
             with open('./用户数据.txt','a',encoding='utf-8') as U:
                 U.write(column[c])
                 U.write('\n')
+#%%爬取另外的信息
+def get_analyse(user_agent,data,n1,n2):
+    url_title='https://www.bbiquge.net'
+    title_list=[]
+    label_list=[]
+    result_list=[]
+    count_novel_list=[]
+    result_analyse_list=[]
+    last_time1_list=[]
+    author_list=[]
+    for  url in list(data['网址'][n1:n2]):
+        e=get_book_danye(user_agent,url)
+        #获取书名
+        title=e.xpath('/html/body/div[3]/div/div[3]/h1/text()')[0]
+        #最后一章更新时间last_time
+        last_time1=e.xpath('/html/body/div[3]/div/div[3]/div[1]/text()[2]')[0].split('（')[1].split('）')[0]
+        #分类label
+        try:
+            label=e.xpath('/html/body/div[3]/div/div[1]/a[2]/text()')[0]
+        except:
+            label='未知分类'
+        #获取最后一页url_last
+        try:
+            url_last=url_title+e.xpath('/html/body/div[4]/div/select/option/@value')[-1]
+        except:
+            url_last=url+'1.html'
+            
+        #获取最后一页所有章节名,判断是否有大结局字样
+        
+        e1=get_book_danye(user_agent,url_last)
+        all_title=e1.xpath('/html/body/div[4]/dl/dd/a/text()')
+        count=0
+        for i in all_title:
+            if '大结局'  in i:
+                print(i)
+                count+=1
+            elif '完本' in i:
+                count+=1
+        if count>=1:
+            result='完本'
+            result_analyse='完本'
+        else:
+            result='未完本'
+        
+        
+        author=e.xpath('/html/body/div[3]/div/div[3]/h1/small/a/text()')[0]
+        index=data['作者']==author
+        count_novel=index.sum()
+        if count==0 and count_novel>1:
+            result_analyse='未完本非该作者唯一作品'
+        elif count==0 and count_novel==1:
+            result_analyse='未完本是该作者唯一作品'
+        
+        title_list.append(title)
+        label_list.append(label)
+        result_list.append(result)
+        count_novel_list.append(count_novel)
+        result_analyse_list.append(result_analyse)
+        last_time1_list.append(last_time1)
+        author_list.append(author)
+        
+        
+    data1=pd.DataFrame()
+    data1['作品名']=title_list
+    data1['作家']=author_list
+    data1['分类']=label_list
+    data1['完本情况']=result_list
+    data1['该作者作品数']=count_novel_list
+    data1['作品完本分析']=result_analyse_list
+    data1['最后更新时间']=pd.to_datetime(last_time1_list)
+    data1.to_csv(f'./bq_analyse_{n2}.csv',index=False)
 def tool_box():
     #一键更新51书城所有书目
-    choose=st.sidebar.selectbox('功能选择', ['查看用户数据','更新51书目','更新笔趣书目前300页','一键删除用户数据','一键插入标题行','查看已下载小说','查看51书城书目','查看笔趣书目','删除笔趣书目'])
+    choose=st.sidebar.selectbox('功能选择', ['查看用户数据','更新51书目','更新笔趣阁书目','更新笔趣阁分析数据','一键删除用户数据','一键插入标题行','查看已下载小说','查看51书城书目','查看笔趣书目','删除笔趣书目','查看笔趣分析数据集'])
     if choose=='查看用户数据':
         show_data()
     elif choose=='一键删除用户数据':
         delete_data(file,book_list)
     elif choose=='一键插入标题行'  :
         user_data_load(column)
-    elif choose=='更新笔趣书目前300页':
+    elif choose=='更新笔趣阁分析数据':
+        st.write(data.shape)
+        n1=int(st.text_input('请输入从第几页开始:'))
+        n2=int(st.text_input('请输入从第几页结束:'))
+        if n1==None and n2==None:
+            st.stop()
+        st.success(get_analyse(user_agent,data,n1,n2))
+    elif choose=='更新笔趣阁书目':
         st.write('该功能已暂时关闭')
         # n1=int(st.text_input('请输入从第几页开始:'))
         # n2=int(st.text_input('请输入从第几页结束:'))
@@ -405,15 +483,21 @@ def tool_box():
     elif choose=='查看51书城书目':
         show_51_book()
     elif choose=="查看笔趣书目":
-        data_look=get_all_book()
+        data_look=get_all_book('笔趣阁所有')
         data21=data_look.to_csv()
         st.download_button('保存目录',data21,file_name='book.csv')
     elif choose=='删除笔趣书目':
         code11=st.text_input('请输入删除的密码：')
         if code11!='zwz':
             st.stop()
-        st.success(delete_biqu()
+        st.success(delete_biqu('笔趣阁所有')
                 )
+    elif choose=='查看笔趣分析数据集':
+        data_look2=get_all_book('bq_analyse')
+        code12=st.text_input('请输入删除的密码：')
+        if code12!='zwz':
+            st.stop()
+        st.success(delete_biqu('bq_analyse')
 #%% 字典去重
 func=lambda data:dict([x,y] for y,x in data.items())
 
@@ -426,7 +510,7 @@ for b in file_local:
     if '.txt' in b:
         book_list.append(b)
 #%%
-data=get_all_book()
+data=get_all_book('笔趣阁所有')
 #data=pd.read_csv('C:/Users/bianca/Downloads/book.csv')
 name_list=list(data['书名'])
 url_list=list(data['网址'])
