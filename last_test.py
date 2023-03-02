@@ -504,8 +504,18 @@ def tool_box():
         st.success(delete_biqu('笔趣阁所有')
                 )
     elif choose=='查看笔趣分析数据集':
-        data_look2=get_all_book('bq_analyse')
-        #st.dataframe(data_look2['作家'])
+        file=os.getcwd()
+        file_local=os.listdir(file)
+        biqu_data=pd.DataFrame()
+        for j in file_local:
+            if '.csv' in j:
+                if 'bq_analyse' in j:
+                    txt=os.path.join(file,f'{j}')
+                    data1=pd.read_csv(txt)
+                    #st.dataframe(data1)
+                    biqu_data=pd.concat([biqu_data,data1])
+        #st.dataframe(biqu_data)
+        st.write(biqu_data.shape)
         code12=st.text_input('请输入删除的密码：')
         if code12!='zwz':
             st.stop()
