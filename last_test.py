@@ -121,7 +121,7 @@ def get_biqu_fenlei_page(url,user_agent):
 def get_biqu_onepage_book(url,user_agent):
     #url='https://www.bbiquge.net/top/size/785.html'
     header={'user-agent':random.choice(user_agent)}
-    proxy='114.231.45.99:41932'
+    proxy='14.106.247.182:30102'
     proxies={'http':'http://'+proxy}
     resp=requests.get(url,headers=header,proxies=proxies)
     resp.encoding='gbk'
@@ -150,9 +150,9 @@ def daoru(list1,list2):
         list2.append(b)
 #%% 获取单页的源代码
 def get_book_danye(user_agent,url):
-    proxy='117.93.108.82:49215'
+    proxy={'58.219.61.241:34167','14.106.247.182:30102'}
 
-    proxies={'http':'http://'+proxy}
+    proxies={'http':'http://'+random.choice(proxy)}
     header={'user-agent':random.choice(user_agent)}
     resp=requests.get(url,headers=header,proxies=proxies)
     resp.encoding='gbk'
