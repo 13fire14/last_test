@@ -462,7 +462,7 @@ def get_analyse(user_agent,data,n1,n2):
     data1['作品完本分析']=result_analyse_list
     data1['最后更新时间']=pd.to_datetime(last_time1_list)
     #st.dataframe(data1)
-    data1.to_csv(f'./bq_analyse_{n2}.csv',index=False)
+    data1.to_csv(f'./bq_analyse_{n1}_{n2}.csv',index=False)
 def tool_box():
     #一键更新51书城所有书目
     choose=st.sidebar.selectbox('功能选择', ['查看用户数据','更新51书目','更新笔趣阁书目','更新笔趣阁分析数据','一键删除用户数据','一键插入标题行','查看已下载小说','查看51书城书目','查看笔趣书目','删除笔趣书目','查看笔趣分析数据集'])
