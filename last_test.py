@@ -525,7 +525,7 @@ def tool_box():
         if code12!='zwz':
             st.stop()
         st.success(delete_biqu('bq_analyse'))
-    elif choose='查看数据分析失效':
+    elif choose=='查看数据分析失效':
         file=os.getcwd()
         file_local=os.listdir(file)
         biqu_data=pd.DataFrame()
