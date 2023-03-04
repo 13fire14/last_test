@@ -466,7 +466,7 @@ def get_analyse(user_agent,data,n1,n2):
     data1['作品完本分析']=result_analyse_list
     data1['最后更新时间']=pd.to_datetime(last_time1_list)
     #st.dataframe(data1)
-    data11.to_csv(f'./notpass{n1}_{n2}.csv',index=False)
+    data1_1.to_csv(f'./notpass{n1}_{n2}.csv',index=False)
     data1.to_csv(f'./bq_analyse_{n1}_{n2}.csv',index=False)
 def tool_box():
     #一键更新51书城所有书目
